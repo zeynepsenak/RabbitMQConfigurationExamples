@@ -18,13 +18,24 @@ public class RabbitMQConfiguration {
 
     @Value("${example.rabbitmq.queue.a}")
     private String queueNameA;
+    
+    @Value("${example.rabbitmq.queue.b}")
+    private String queueNameB;
 
     @Value("${example.rabbitmq.routingkey.a}")
     private String routingKeyA;
+    
+    @Value("${example.rabbitmq.routingkey.a}")
+    private String routingKeyB;
 
     @Bean
     public Queue queueA() {
         return new Queue(queueNameA, false);
+    }
+    
+    @Bean
+    public Queue queueB() {
+        return new Queue(queueNameB, false);
     }
 
     @Bean
@@ -35,6 +46,11 @@ public class RabbitMQConfiguration {
     @Bean
     public Binding bindingA(final Queue queueA, final DirectExchange directExchange){
         return BindingBuilder.bind(queueA).to(directExchange).with(routingKeyA);
+    }
+    
+    @Bean
+    public Binding bindingB(final Queue queueB, final DirectExchange directExchange){
+        return BindingBuilder.bind(queueB).to(directExchange).with(routingKeyB);
     }
 
     @Bean
